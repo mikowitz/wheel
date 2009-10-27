@@ -5,8 +5,8 @@ begin
   require 'jeweler'
   Jeweler::Tasks.new do |gem|
     gem.name = "wheel"
-    gem.summary = %Q{TODO: one-line summary of your gem}
-    gem.description = %Q{TODO: longer description of your gem}
+    gem.summary = %Q{As in reinvention...}
+    gem.description = %Q{RSpec lite.}
     gem.email = "michael.berkowitz@gmail.com"
     gem.homepage = "http://github.com/mikowitz/wheel"
     gem.authors = ["Michael Berkowitz"]
