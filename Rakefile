@@ -17,6 +17,13 @@ rescue LoadError
   puts "Jeweler (or a dependency) not available. Install it with: sudo gem install jeweler"
 end
 
+require 'rake/testtask'
+Rake::TestTask.new(:test) do |test|
+  test.libs << 'lib' << 'test'
+  test.pattern = 'test/**/*_test.rb'
+  test.verbose = true
+end
+
 require 'spec/rake/spectask'
 Spec::Rake::SpecTask.new(:spec) do |spec|
   spec.libs << 'lib' << 'spec'
@@ -26,7 +33,14 @@ end
 Spec::Rake::SpecTask.new(:rcov) do |spec|
   spec.libs << 'lib' << 'spec'
   spec.pattern = 'spec/**/*_spec.rb'
+  spec.spec_opts = ['-cfs']
   spec.rcov = true
+end
+
+desc "runs all spec tests using wheel"
+task :wheel do |t|
+  files = Dir["wheel_test/*_test.rb"]
+  system("./bin/wheel #{files.join(" ")}")
 end
 
 task :spec => :check_dependencies

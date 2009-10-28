@@ -1,0 +1,11 @@
+#!/usr/bin/env ruby
+require File.dirname(__FILE__) + "/../lib/wheel"
+include Wheel::Wheel
+
+Wheel::Formatter.formatter = Wheel::Formatter::SpecColorFormatter.new
+
+ARGV.each do |file|
+  require file
+end
+
+Wheel::TestRunner.run_tests

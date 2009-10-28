@@ -1,9 +1,11 @@
+require 'rubygems'
+require 'test/unit'
+require 'shoulda'
+
 $LOAD_PATH.unshift(File.dirname(__FILE__))
 $LOAD_PATH.unshift(File.join(File.dirname(__FILE__), '..', 'lib'))
 require 'wheel'
-require 'spec'
-require 'spec/autorun'
+include Wheel::Wheel
 
-Spec::Runner.configure do |config|
-  
+class Test::Unit::TestCase
 end
