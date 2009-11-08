@@ -31,6 +31,7 @@ module Wheel
         self._pass_or_die(ex, eg.before_each_block)
       end
       eg.example_groups.each do |sub_eg|
+        sub_eg.instance_eval(&eg.before_all_block) if eg.before_all_block
         run_example_group(sub_eg)
       end
     end

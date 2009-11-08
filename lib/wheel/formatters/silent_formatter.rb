@@ -2,22 +2,31 @@ module Wheel
   module Formatter
     class SilentFormatter
       # test suite name
-      def print_suite_name(name); end
+      def suite_name(name); end
       
       # test results
-      def print_success(name); end
-      def print_failure(name, ct); end
-      def print_error(name, ct); end
-      def print_pending(name, ct); end
+      def success(name); end
+      def failure(name, ct); end
+      def error(name, ct); end
+      def pending(name, ct); end
       
       # result details
-      def print_failure_details(fail, ct); end
-      def print_error_details(error, ct); end
-      def print_pending_details(pending, ct); end
+      def failure_details(fail, ct); end
+      def error_details(error, ct); end
+      def pending_details(pending, ct); end
       
       # test runner results
-      def print_run_details(runner, run_time); end
-      def print_example_results(runner); end
+      def run_details(runner, run_time); end
+      def example_results(runner); end
+
+      def method_missing(method, *args, &block)
+        if method.to_s =~ /^print_/
+          method = method.to_s.gsub("print_", "")
+          print self.send(method, *args, &block) || ""
+        else
+          super(method, *args, &block)
+        end
+      end
     end
   end
 end

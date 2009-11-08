@@ -5,10 +5,10 @@ module Wheel
       def print_suite_name(name); puts; puts name; end
 
       # test results
-      def print_success(name); puts "- #{name}"; end
-      def print_failure(name, ct); puts "- #{name} (FAILED - #{ct})"; end
-      def print_error(name, ct); puts "- #{name} (ERROR - #{ct})"; end
-      def print_pending(name, ct); puts "- #{name} (PENDING - #{ct})"; end
+      def success(name); "- #{name}\n"; end
+      def failure(name, ct); "- #{name} (FAILED - #{ct})\n"; end
+      def error(name, ct); "- #{name} (ERROR - #{ct})\n"; end
+      def pending(name, ct); "- #{name} (PENDING - #{ct})\n"; end
       
       # test runner results
       def print_run_details(runner, run_time)

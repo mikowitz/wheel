@@ -2,12 +2,15 @@ $LOAD_PATH.unshift(File.join(File.dirname(__FILE__), "wheel"))
 
 begin
   require 'rubygems'
-  gem "color", "= 0.1.2"
-  require 'color'
+  require 'mikowitz-color'
 rescue
   module Color
     def self.method_missing(method, *args)
-      puts args.first
+      if args[1] == false
+        print args.first
+      else
+        puts args.first
+      end
     end
   end
 end
