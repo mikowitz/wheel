@@ -8,11 +8,11 @@ module Wheel
     def matches?(actual, pos=true)
       @actual = actual
       result = check_expectation(@actual)
-      error_message(pos) unless result == pos
+      error_message(pos) unless !!result == pos
     end
-
+    
     def check_expectation(actual)
-      !!instance_exec(actual, &@match_block)
+      instance_exec(actual, &@match_block)
     end
     
     def error_message(pos)

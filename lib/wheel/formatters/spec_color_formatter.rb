@@ -1,21 +1,52 @@
 module Wheel
   module Formatter
     class SpecColorFormatter < SpecFormatter
-      def print_suite_name(name); puts; Color.white(name); end
-      def print_test_name(name); Color.green("- #{name}", false); end
-      def print_failed_test_name(name); Color.red("- #{name}", false); end
-      def print_success; puts; end
-      def print_failure(message, ct); Color.red(" (FAILED - #{ct})") ; end
-      def print_error(message, ct); Color.yellow(" (ERROR - #{ct})") ; end
+      # test results
+      def print_success(name); Color.green "- #{name}"; end
+      def print_failure(name, ct); Color.red "- #{name} (FAILED - #{ct})"; end
+      def print_error(name, ct); Color.yellow "- #{name} (ERROR - #{ct})"; end
+      def print_pending(name, ct); Color.cyan "- #{name} (PENDING - #{ct})"; end
 
-
-      def print_failure_details(err, ct)
-        puts "#{ct + 1})"
-        Color.red "'#{err[1]}' FAILED"
-        Color.red "#{err[0].message}"
-        puts err[0].backtrace.reject{|l| l =~ /:in/ }.first
-        puts
+      # result details
+      def print_failure_details(fail, ct)
+        print_non_success_details(ct, "FAILED", *fail)
       end
+      
+      def print_error_details(error, ct)
+        print_non_success_details(ct, "ERROR", *error)
+      end
+      
+      def print_pending_details(pending, ct)
+        print_non_success_details(ct, "PENDING", *pending)
+      end
+      
+      # test runner results
+      def print_run_details(runner, run_time)
+        puts; puts
+        runner.failures.each_with_index do |failure, ct|
+          print_failure_details(failure, ct)
+        end
+        runner.errors.each_with_index do |err, ct|
+          print_error_details(err, ct)
+        end
+        runner.pending.each_with_index do |pend, ct|
+          print_pending_details(pend, ct)
+        end
+        puts
+        puts "Finished in #{run_time} seconds"
+        puts
+        Color.send(runner.summary_color, example_results(runner))
+      end
+      
+      private
+        def print_non_success_details(ct, non_success_type, exception, example)
+          color = Formatter::NON_SUCCESS_COLORS[non_success_type]
+          puts "#{ct + 1})"
+          Color.send(color, "'#{example.full_name}' #{non_success_type}")
+          Color.send(color, exception.message)
+          puts example.backtrace.reject{|l| l =~ /:in/}.first
+          puts
+        end      
     end
   end
 end

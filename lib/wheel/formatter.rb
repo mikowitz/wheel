@@ -1,5 +1,11 @@
 module Wheel
   module Formatter
+    NON_SUCCESS_COLORS = {
+      "FAILED" => :red,
+      "ERROR" => :yellow,
+      "PENDING" => :cyan
+    }
+
     @@formatter = nil
     def self.formatter; @@formatter; end
     def self.formatter=(formatter); @@formatter = formatter; end

@@ -39,7 +39,7 @@ end
 
 desc "runs all spec tests using wheel"
 task :wheel do |t|
-  files = Dir["wheel_test/*_test.rb"]
+  files = Dir["wheel/*_test.rb"]
   system("./bin/wheel #{files.join(" ")}")
 end
 

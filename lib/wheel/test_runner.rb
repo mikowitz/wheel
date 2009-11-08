@@ -1,9 +1,13 @@
 module Wheel
   module TestRunner
     @@failures = []
+    @@errors = []
+    @@pending = []
     @@examples = 0
     
     def self.failures; @@failures; end
+    def self.errors; @@errors; end
+    def self.pending; @@pending; end
     def self.examples; @@examples; end
     def self.examples=(val); @@examples = val; end
     
@@ -20,30 +24,47 @@ module Wheel
     end
     
     def self.run_example_group(eg)
-      formatter.print_suite_name(eg.full_name)
+      formatter.print_suite_name(eg.full_name) unless eg.examples.empty?
+      eg.instance_eval(&eg.before_all_block) if eg.before_all_block
       eg.examples.each do |ex|
-        self._pass_or_die(ex)
+        eg.instance_eval(&eg.before_each_block) if eg.before_each_block
+        self._pass_or_die(ex, eg.before_each_block)
       end
       eg.example_groups.each do |sub_eg|
         run_example_group(sub_eg)
       end
     end
     
-    
-    def self._pass_or_die(ex)
+    def self._pass_or_die(ex, proc)
       self.examples += 1
       begin
-        result = ex.run_example
-        formatter.print_test_name(ex.name)
-        formatter.print_success
+        ex.run_example
+        formatter.print_success(ex.name)
       rescue FailedExpectation => err
-        formatter.print_failed_test_name(ex.name)
-        formatter.print_failure(err.message, failures.size + 1)
-        self.failures << [err, ex.full_name]
+        self.failures << [err, ex]
+        formatter.print_failure(ex.name, failures.size)
+      rescue PendingExpectation => err
+        self.pending << [err, ex]
+        formatter.print_pending(ex.name, pending.size)
       rescue Exception => err
-        formatter.print_failed_test(ex.name)
-        formatter.print_error(err.message, failures.size + 1)
-        self.failures << [err, ex.full_name]
+        self.errors << [err, ex]
+        formatter.print_error(ex.name, errors.size)
+      end
+    end
+    
+    def self.summary_color
+      if self.failures.empty?
+        if self.errors.empty?
+          if self.pending.empty?
+            :green
+          else
+            :cyan
+          end
+        else
+          :yellow
+        end
+      else
+        :red
       end
     end
   end

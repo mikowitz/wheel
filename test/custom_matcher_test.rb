@@ -34,6 +34,32 @@ class CustomMatcherTest < Test::Unit::TestCase
     end
   end
   
+  context "be_a" do
+    setup do
+      @matcher = Wheel::Matcher.new(:be_a, String) do |_actual_|
+        _actual_.is_a? String
+      end
+    end
+    
+    should "work correctly" do
+      assert @matcher.check_expectation("hello")
+      assert !@matcher.check_expectation(0.25)
+    end
+  end
+
+  context "be" do
+    setup do
+      @matcher = Wheel::Matcher.new(:be, true) do |_actual_|
+        !!_actual_ = true
+      end
+    end
+    
+    should "work correctly" do
+      assert @matcher.check_expectation(true)
+    end
+  end
+
+
   context "be_close_to" do
     setup do
       @matcher = Wheel::Matcher.new(:be_close_to, 5) do |_actual_|
