@@ -25,6 +25,15 @@ module Wheel
     def it(name, &block)
       self.examples << Example.new(name, self.full_name, &block)
     end
+
+    def it_should_behave_like(name)
+      if Wheel.shared_examples.keys.include?(name)
+        shared_examples = Wheel.shared_examples[name]
+        shared_examples.each do |block|
+          instance_eval(&block)
+        end
+      end
+    end
     
     def before(frequency = :all, &block)
       if frequency == :all
