@@ -2,6 +2,15 @@
 
 RSpec lite. Smaller, faster. Really just an experiment for now, but we'll see where it goes.
 
+== Installation
+
+Install gemcutter
+  ~$ gem install gemcutter
+Add gemcutter.org to your gem remote sources
+  ~$ gem tumble
+Download and install this gem
+  ~$ gem install wheel
+
 == Copyright
 
 Copyright (c) 2009 Michael Berkowitz. See LICENSE for details.

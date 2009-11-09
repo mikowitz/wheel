@@ -4,7 +4,7 @@ begin
   require 'rubygems'
   require 'mikowitz-color'
 rescue
-  module Color
+  module Color #:nodoc:
     def self.method_missing(method, *args)
       if args[1] == false
         print args.first

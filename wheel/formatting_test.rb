@@ -19,7 +19,7 @@
 describe "Wheel" do
   before do
     @ex_group = Wheel::ExampleGroup.new("group name", "group parent name") do; end
-    @example = Wheel::Example.new("example name", "group name", @ex_group) do; end
+    @example = Wheel::Example.new("example name", "group name") do; end
     @failure = [Wheel::FailedExpectation.new("test name", "message"), @example]
     @pending = [Wheel::PendingExpectation.new("test name", "pending message"), @example]
     @error = [SyntaxError.new, @example]

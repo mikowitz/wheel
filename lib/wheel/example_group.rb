@@ -3,12 +3,13 @@ module Wheel
     include CustomMatchers    
 
     attr_reader :name, :parent_name, :examples, :example_groups
-    attr_accessor :before_all_block, :before_each_block
-    attr_accessor :after_all_block, :after_each_block
+    attr_accessor :before_all_blocks, :before_each_blocks
+    attr_accessor :after_all_blocks, :after_each_blocks
 
     def initialize(name, parent_name, &block)
       @name, @parent_name = name, parent_name
       @examples, @example_groups = [], []
+      @before_all_blocks, @before_each_blocks, @after_all_blocks, @after_each_blocks = [], [], [], []
       instance_eval(&block)
     end
     
@@ -22,15 +23,23 @@ module Wheel
     end
     
     def it(name, &block)
-      self.examples << Example.new(name, self.full_name, self, &block)
+      self.examples << Example.new(name, self.full_name, &block)
     end
     
     def before(frequency = :all, &block)
       if frequency == :all
-        @before_all_block = block
+        before_all_blocks << block
       else
-        @before_each_block = block
+        before_each_blocks << block
       end
+    end
+    
+    def after(frequency = :all, &block)
+      if frequency == :all
+        after_all_blocks << block
+      else
+        after_each_blocks << block
+      end      
     end
     
     def pending(name, &block)
