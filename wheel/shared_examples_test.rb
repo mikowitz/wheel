@@ -44,3 +44,11 @@ describe "Shared example tests" do
     @a.should == "A"
   end
 end
+
+describe "A 2nd block of shared example tests" do
+  before do
+    @x = "X"
+  end
+
+  it_should_behave_like "shared examples"
+end

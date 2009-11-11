@@ -1,8 +1,42 @@
 #!/usr/bin/env ruby
+require 'optparse'
 require File.dirname(__FILE__) + "/../lib/wheel"
 include Wheel::Wheel
 
-Wheel::Formatter.formatter = Wheel::Formatter::SpecColorFormatter.new
+options = {}
+OptionParser.new do |opts|
+  opts.banner = "Usage: example.rb [options]"
+
+  opts.on("-q", "--quiet", "Run without output") do |q|
+    options[:quiet] = q
+  end
+
+  opts.on("-c", "--color", "Print colored output") do |c|
+    options[:color] = c
+  end
+
+  opts.on("-s", "--spec", "Print RSPec-like test results") do |s|
+    options[:spec] = s
+  end
+end.parse!
+
+formatter = if options.keys.include?(:quiet)
+  "SilentFormatter"
+elsif options.keys.include?(:color)
+  if options.keys.include?(:spec)
+    "SpecColorFormatter"
+  else
+    "SimpleColorFormatter"
+  end
+else
+  if options.keys.include?(:spec)
+    "SpecFormatter"
+  else
+    "SimpleFormatter"
+  end
+end
+
+Wheel::Formatter.formatter = Wheel::Formatter.class_eval(formatter).new
 
 ARGV.each do |file|
   require file

@@ -40,7 +40,7 @@ end
 desc "runs all spec tests using wheel"
 task :wheel do |t|
   files = Dir["wheel/*_test.rb"]
-  system("./bin/wheel #{files.join(" ")}")
+  system("./bin/wheel #{files.join(" ")} -sc")
 end
 
 task :spec => :check_dependencies
