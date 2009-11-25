@@ -11,6 +11,7 @@ begin
     gem.homepage = "http://github.com/mikowitz/wheel"
     gem.authors = ["Michael Berkowitz"]
     gem.add_runtime_dependency "mikowitz-color"
+    gem.files = FileList["[A-Z]*", "bin/**/*", "lib/**/*.rb", "test/**/*.rb", "wheel/**/*.rb"]
     # gem is a Gem::Specification... see http://www.rubygems.org/read/chapter/20 for additional settings
   end
 rescue LoadError

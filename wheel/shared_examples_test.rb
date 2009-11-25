@@ -50,5 +50,6 @@ describe "A 2nd block of shared example tests" do
     @x = "X"
   end
 
+
   it_should_behave_like "shared examples"
 end
