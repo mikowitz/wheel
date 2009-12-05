@@ -15,7 +15,7 @@ rescue
   end
 end
 
-require 'custom_matchers'
+require 'matchers'
 require 'errors'
 require 'example'
 require 'example_group'
@@ -26,6 +26,8 @@ require 'matcher'
 require 'test_runner'
 
 module Wheel
+  MATCHERS = {}
+
   module Wheel
     @@shared_examples = {}
     def shared_examples; @@shared_examples; end

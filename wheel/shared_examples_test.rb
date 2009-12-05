@@ -18,7 +18,7 @@ shared_examples_for "shared examples" do
     end
     
     it "should get run" do
-      [1,2,3].should include 3
+      [1,2,3].should contain 3
     end
     
     it "should recognize instance variables" do

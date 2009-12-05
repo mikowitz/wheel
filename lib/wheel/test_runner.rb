@@ -6,7 +6,6 @@ module Wheel
     @@examples = 0
     @@current_parent_example_group = nil
     
-    
     def self.failures; @@failures; end
     def self.errors; @@errors; end
     def self.pending; @@pending; end
@@ -38,8 +37,6 @@ module Wheel
         sub_eg.before_each_blocks += (@@current_parent_example_group.before_each_blocks + eg.before_each_blocks).uniq
         sub_eg.after_each_blocks += (@@current_parent_example_group.after_each_blocks + eg.after_each_blocks).uniq
         run_example_group(sub_eg)
-        sub_eg.after_each_blocks-= (@@current_parent_example_group.after_each_blocks + eg.after_each_blocks).uniq
-        sub_eg.before_each_blocks -= (@@current_parent_example_group.before_each_blocks + eg.before_each_blocks).uniq
       end
       run_setup_or_teardown_blocks(eg, @@current_parent_example_group, :after_all)
       @@current_parent_example_group = nil if eg.parent_name.nil?

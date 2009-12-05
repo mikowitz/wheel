@@ -1,6 +1,6 @@
 module Wheel
   class Example
-    include CustomMatchers
+    include Matchers
     attr_reader :name, :parent_name, :backtrace, :block
     
     def initialize(name, parent_name, &block)

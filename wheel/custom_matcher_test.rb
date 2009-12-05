@@ -1,3 +1,5 @@
+require 'ostruct'
+
 describe "Wheel" do
   describe "Custom Matchers" do
     it "should handle equal correctly" do
@@ -11,8 +13,8 @@ describe "Wheel" do
     end
 
     it "should handle include correctly" do
-      [1,2,3,4,5].should include 4
-      [1,2,3].should_not include 4
+      [1,2,3,4,5].should contain 4
+      [1,2,3].should_not contain 4
     end
     
     it "should handle be_close_to correctly" do
@@ -32,6 +34,19 @@ describe "Wheel" do
     it "should handle be correctly" do
       true.should be
       (1 == 2).should_not be
+    end
+
+    it "should handle respond_to correctly" do
+      1.should respond_to :to_s
+      "ok".should_not respond_to :whatever
+    end
+    
+    it "should handle have_assigned_attribute" do
+      c = OpenStruct.new
+      c.hello = "hello"
+      c.goodbye = nil
+      c.should have_assigned_attribute :hello
+      c.should_not have_assigned_attribute :goodbye
     end
     
     describe "on the fly defined matchers" do

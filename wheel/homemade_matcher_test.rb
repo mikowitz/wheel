@@ -1,5 +1,5 @@
 module Wheel
-  module CustomMatchers
+  module Matchers
     def be_greater_than(expected)
       Matcher.new(:greater_than, expected) do |_actual_|
         @messages = {

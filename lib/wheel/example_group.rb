@@ -1,6 +1,6 @@
 module Wheel
   class ExampleGroup
-    include CustomMatchers    
+    include Matchers
 
     attr_reader :name, :parent_name, :examples, :example_groups
     attr_accessor :before_all_blocks, :before_each_blocks
@@ -11,6 +11,10 @@ module Wheel
       @examples, @example_groups = [], []
       @before_all_blocks, @before_each_blocks, @after_all_blocks, @after_each_blocks = [], [], [], []
       instance_eval(&block)
+    end
+    
+    def include(mod)
+      self.class.send(:include, mod)
     end
     
     def describe(name, &block)
@@ -70,6 +74,8 @@ module Wheel
           }
           !!_actual_.send("#{tested_method}?")
         end
+      else
+        raise(::Wheel::NoMatcher, "cannot find matcher for the name #{method.to_sym.inspect}")
       end
     end
   end

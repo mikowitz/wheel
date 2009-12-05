@@ -1,5 +1,5 @@
 module Wheel
-  module CustomMatchers
+  module Matchers
     def equal(expected)
       Matcher.new(:equal, expected) do |_actual_|
         @messages = {
@@ -27,11 +27,11 @@ module Wheel
       end
     end
     
-    def include(expected)
-      Matcher.new(:include, expected) do |_actual_|
+    def contain(expected)
+      Matcher.new(:contain, expected) do |_actual_|
         @messages = {
-          true => "expected #{_actual_.inspect} to include #{expected.inspect}",
-          false => "did not expect #{_actual_.inspect} to include #{expected.inspect}"
+          true => "expected #{_actual_.inspect} to contain #{expected.inspect}",
+          false => "did not expect #{_actual_.inspect} to contain #{expected.inspect}"
         }
         _actual_.include?(expected)
       end
@@ -70,5 +70,26 @@ module Wheel
         !!_actual_ == expected
       end
     end
+   
+    def respond_to(expected)
+      Matcher.new(:respond_to, expected) do |_actual_|
+        @messages = {
+          true => "expected #{_actual_.inspect} to respond to #{expected.to_sym.inspect}",
+          false => "did not expect #{_actual_.inspect} to respond to #{expected.to_sym.inspect}"          
+        }
+        !!_actual_.respond_to?(expected.to_sym)
+      end
+    end
+    
+    def have_assigned_attribute(expected)
+      Matcher.new(:have_assigned_attribute, expected) do |_actual_|
+        @messages = {
+          true => "expected #{_actual_.inspect} to have a non-nil value assigned to #{expected.to_sym.inspect}",
+          false => "did not expect #{_actual_.inspect} to have a non-nil value assigned to #{expected.to_sym.inspect}"          
+        }
+        !!(_actual_.respond_to?(expected.to_sym) && !_actual_.send(expected.to_sym).nil?)
+      end
+    end
+
   end
 end

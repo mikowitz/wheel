@@ -12,4 +12,11 @@ module Wheel
       @test_name, @message = test_name, message
     end
   end
+  
+  class NoMatcher < Exception
+    attr_reader :message
+    def initialize(message)
+      @message = message
+    end
+  end
 end

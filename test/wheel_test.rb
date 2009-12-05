@@ -19,7 +19,6 @@ class WheelTest < Test::Unit::TestCase
       assert_equal "Test", @group.full_name
     end
     should "add the correct data to the first ExampleGroup" do
-      assert_equal 1, @group.examples.size
       assert_equal "should be true", @group.examples.first.name
       assert_equal "Test should be true", @group.examples.first.full_name
     end
