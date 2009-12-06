@@ -1,13 +1,15 @@
 module Wheel
   module Matchers
     def be_greater_than(expected)
-      Matcher.new(:greater_than, expected) do |_actual_|
+      m = MATCHERS[:greater_than] || Matcher.new(:greater_than) do |_actual_, _expected_|
         @messages = {
-          true => "expected #{_actual_} to be greater than #{expected}",
-          false => "did not expect #{_actual_} to be greater than #{expected}"
+          true => "expected #{_actual_} to be greater than #{_expected_}",
+          false => "did not expect #{_actual_} to be greater than #{_expected_}"
         }
-        !!(_actual_ > expected)
+        !!(_actual_ > _expected_)
       end
+      m.expected = expected
+      m
     end
   end
 end

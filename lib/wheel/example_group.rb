@@ -67,13 +67,14 @@ module Wheel
       method = method.to_s
       if method =~ /^be_/
         tested_method = method.match(/^be_(.*)$/)[1]
-        Matcher.new(tested_method.to_sym, nil) do |_actual_|
+        m = MATCHERS[tested_method.to_sym] || Matcher.new(tested_method.to_sym) do |_actual_, _expected_|
           @messages = {
             true => "expected #{_actual_.inspect} to be #{tested_method}",
             false => "did not expect #{_actual_.inspect} to be #{tested_method}"
           }
           !!_actual_.send("#{tested_method}?")
         end
+        m
       else
         raise(::Wheel::NoMatcher, "cannot find matcher for the name #{method.to_sym.inspect}")
       end

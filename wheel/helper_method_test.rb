@@ -2,10 +2,6 @@ module Helpers
   def fee
     return "hello"
   end
-  
-  def self.included(base)
-    puts "including Helpers..."
-  end
 end
 
 describe "examples in a block that includes helper methods" do

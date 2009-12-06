@@ -44,7 +44,7 @@ module Wheel
           puts "#{ct + 1})"
           Color.send(color, "'#{example.full_name}' #{non_success_type}")
           Color.send(color, exception.message)
-          puts example.backtrace.reject{|l| l =~ /:in/}.first
+          puts example.backtrace#.reject{|l| l =~ /:in/}.first
           puts
         end      
     end

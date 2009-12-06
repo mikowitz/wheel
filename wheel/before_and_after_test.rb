@@ -103,29 +103,5 @@ describe "An example group" do
       end
     end
   end
-  
-  describe "running before and after blocks in the correct order" do
-    before do
-      puts "outer before"
-    end
-    
-    after do
-      puts "outer after"
-    end
-    
-    describe "and a sub block" do
-      before do
-        puts "inner before"
-      end
-      
-      after do
-        puts "inner after"
-      end
-      
-      it "should be a thing" do
-        puts "example"
-      end
-    end
-  end
 end
 
