@@ -20,16 +20,16 @@ OptionParser.new do |opts|
   end
 end.parse!
 
-formatter = if options.keys.include?(:quiet)
+formatter = if options.fetch(:quiet) {false}
   "SilentFormatter"
-elsif options.keys.include?(:color)
-  if options.keys.include?(:spec)
+elsif options.fetch(:color) {false}
+  if options.fetch(:spec) {false}
     "SpecColorFormatter"
   else
     "SimpleColorFormatter"
   end
 else
-  if options.keys.include?(:spec)
+  if options.fetch(:spec) {false}
     "SpecFormatter"
   else
     "SimpleFormatter"
